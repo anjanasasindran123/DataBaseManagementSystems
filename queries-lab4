@@ -1,0 +1,69 @@
+
+//Author Anjana S
+
+
+1. Write an insert command for inserting into a table only specific data i.e. Only data for a 
+specific set of attributes. 
+
+
+INSERT INTO ti (id,name) VALUES (1,'Anjana');
+
+2. Write a single insert command to insert multiple rows. 
+
+                 insert into ti values(2,'Anjana','kerala'),(3,'tina','Kerala');
+             
+3. For the instructor relation, modify the column called salary to type numeric(8,2). 
+What does this datatype signify? 
+alter table Instructor alter column salary type numeric(8,2);
+
+numeric(8,2) means a precision of 8 and a scale of 2 ,that is it can have 6 digits before the decimal point and 2 digits after the decimal point.
+4. Write an Insert into instructor table with salary field value as NULL. 
+              insert into Instructor values('A6','Anjana','cse',NULL);
+       
+5. Perform an average operation on the salary field. Find out if its inclusive of the NULL 
+value. What's your finding? 
+select avg(salary) from Instructor ;
+
+avg function does'nt include columns with a null value.But instead if we have used sum(salary)/count(*) it would have counted the null values and given a different output.
+
+6. Write a query of your choice to depict the purpose of the keyword 'distinct' 
+ select distinct salary from Instructor order by salary; 
+
+7. Write a single update command for updating multiple attributes. 
+                update Instructor set Iname="ANJANA",dept_name="CSE" ,salary=2000 where Iid="A5"; 
+8. Create a table called result with the attributes 
+(sid, cid, sem, year, int_marks_obtained,ext_marks_obtained, max_marks). Max_marks is 
+the max. marks a student can obtain in that course. Sid – Student_id, Cid – Course_id. Write 
+a check constraint which ensures that total_marks_obtained is less than max_marks. 
+
+Create table result(
+				sid int,cid varchar(5),
+				year int,
+				int_marks_obtained int,
+				ext_marks_obtained int,
+			       max_marks int,
+		              check((int_marks_obtained
+			       +ext_marks_obtained)<max_marks));
+9. What's the answer to this query: 
+select * from instructor order by 2;
+
+It displays the table arranged in the ascending order of column 2.
+10. What's the difference between char and varchar?
+
+Varchar is variable length whereas char  is of fixed length.
+
+11. Create tables called as instructors_doing_research(faculty_id, research_area) 
+instructors_managing_projects(Iid, project_title) 
+Write a query to find out the instructors who are not doing research (Hint: Use Minus) 
+select Iid from Instructor minus select faculty_id from  instructors_doing_research;
+12. Write a query using the above tables to find out the instructors who are doing research or 
+those who are managing projects. 
+
+  select distinct Iname from Instructor ,indr,inmp where Instructor.Iid=indr.faculty_id or Instructor.Iid=inmp.Iid; 
+13. Write a query to find out only those instructors who are doing both research as well as 
+managing projects. 
+Construct the relational schema for your project. Upload the schema. (One submission per group) 
+
+select  Iname from Instructor ,indr,inmp where Instructor.Iid=indr.faculty_id and Instructor.Iid=inmp.Iid; 
+
+
