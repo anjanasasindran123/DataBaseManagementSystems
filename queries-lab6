@@ -1,0 +1,89 @@
+//  Author - Anjana S
+
+Normalize the given data into relations (must satisfy the third normal form).Convention_Centre_name, facility,facility_Address,usage_fee_per_hour,bookingid,customerno, 
+customername, customer_Addr, booking_date, booking_start_time, 
+Booking_hours, booking_advance 
+
+Normalization part
+
+Key attributes: Booking _id
+
+First Normal Form:
+
+Booking_id → Convention centre_name, facility, facility_address, usage_fee_per_hour,customer_no, customer_name,customer_Addr,booking_date,booking_start_time, booking_hours, booking_advance .
+
+Second Normal Form – No need as primary key is not composite.
+
+Third Normal Form:
+
+Customer no → customer_name, customer_addr
+Convention_center_name, facility → facility_addr, usagefee_per_hour
+
+booking_id → Convention centre_name, facility, customer_no, booking_date,booking_start_time, booking_hours, booking_advance .
+
+
+1. Relate the relations through suitable constraints. In the foreign key, use on delete 
+cascade option. 
+
+create table Customer1(
+customer_no int primary key, 
+customer_addr varchar(20), 
+customer_name varchar(25)
+);
+
+create table Centre( 
+
+Convention_center_name varchar(25),
+ facility varchar(25), 
+facility_addr varchar(24), 
+usagefee_per_hour int, 
+primary key(Convention_center_name, facility)
+);
+
+create table Booking(
+booking_id int primary key,
+Convention_center_name varchar(25),
+ facility varchar(25), 
+customer_no int references Customer ON DELETE CASCADE, 
+booking_date date ,
+booking_start_time time, 
+booking_hours int ,
+ booking_advance int, 
+ foreign key(Convention_center_name, facility) references Centre ON DELETE CASCADE
+); 
+
+2. Find the customers who have booked the facility of a centre for a given date and time. 
+
+select 
+customer_name,
+Convention_center_name, 
+facility from booking1,
+ customer1 where booking_start_time='10:30:00'  and 
+booking_date='05/06/2010'  and 
+customer1.customer_no = booking1.customer_no; 
+  
+3. Find the facility along with the number of times it has been booked during the year 2014. 
+(Use the extract function) 
+
+Select
+ facility,
+count(booking_id) from booking1 where 
+extract(year from booking_date)=2013   group by facility;
+
+4. Find the booking details in the order of facility and date together. 
+
+Select 
+booking_id, 
+booking_date,
+booking_start_time, 
+booking_hours,
+ booking_advance, 
+facility from booking1 order by  
+ facility, booking_date;
+
+6. Use the concat function to concatenate the centre name and the facility name 
+select 
+convention_center_name || ' ' || facility as 
+"convention_center_name:facility" 
+from centre;
+
