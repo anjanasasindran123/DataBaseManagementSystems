@@ -1,0 +1,98 @@
+// Author - Anjana S
+
+
+
+Create table nStudent12345(sid int,sname varchar(15) primary key, dob date,dept_name Varchar(5) references nDepartment12(dept_name),city varchar(20),state Varchar(10),cgpa int);
+Create table nDepartment12(dept_name Varchar(15) primary key, budget int);
+Create table nInstructor12(Iid int primary key,Iname varchar(15), dept_name  varchar(15) references nDepartment12,salary int, desig varchar(15),dob date, quali varchar(15), city varchar(15), state varchar(15));
+Create table nCourse(cid varchar(15) primary key ,ctitle varchar(15),credits float, semester char(4),programme varchar(8),year int);
+Create table nTeach1(IiD int references nInstructor12(Iid),cid varchar(15) references nCourse(cid),primary key(IiD,cid) );
+Create table nRegister(sid int references nStudent12345,cid int references nCourse(cid), rdate date);
+
+drop table nINstructor12;
+drop table nteach1;
+
+
+//QUERIES OF LAB 5
+
+
+Select I1.Iname from nInstructor12 I1, nInstructor12 I2 where I1.salary >I2.salary and I2.dept_name = 'che';
+
+Select Iname from nInstructor12 where salary > some (Select salary from nInstructor12 where dept_name = 'che');
+
+(select city from nInstructor12)union all(Select city from nStudent12345);
+
+
+(Select city from nInstructor12 ) Intersect (Select city from nStudent12345);
+
+Select count(nInstructor12.Iid) from nInstructor12, nTeach1 , nCourse where ncourse.semester='3' and ncourse.cid = nTeach1.cid and nInstructor12.Iid = nTeach1.IiD and ncourse.year = 2014 GROUP BY dept_name having count(nInstructor12.Iid)>2;
+
+(select city from nstudent12345) except (Select city from nInstructor12);
+
+(Select Iid from nInstructor12 where dob < (Select dob from nInstructor12 where Iid=4));
+
+(Select Iid,Iname  from nInstructor12  where salary>(select salary from nInstructor12 where Iid=3));
+
+(Select Iid from nInstructor12 where desig = (Select desig from nInstructor12 where IiD = 3) AND salary>(Select salary from nInstructor12 where Iid =3));
+
+
+Select Iid from nInstructor12 where salary = (select max (salary) from nINstructor12);
+
+
+
+Select budget from nDepartment12  where dept_name = (Select dept_name from nINstructor12 where salary = (Select max(salary) from nInstructor12));
+
+Select desig from nInstructor12,nTeach1 where  nTeach1.cid = 'cse230' and nTeach1.Iid = nInstructor12.Iid;
+
+Select ctitle from nteach1, ncourse,nInstructor12 where nInstructor12.Iname = 'Remya' and nteach1.iid=nINstructor12.Iid and nteach1.cid = ncourse.cid;
+
+Delete from nInstructor12 where salary < (Select avg(salary) from nINstructor12);
+
+
+create table tab like nInstructor12;
+create table tab as select Iid,Iname,salary from nINstructor12 where 1=2;
+INsert into tab
+              select sid,sname,2000 from student where cgpa>8;
+
+
+
+Select * from nDepartment12;
+Select * from nRegister;
+Select * from nTeach;
+Select * from nStudent12345;
+Select * from nCourse;
+Select * from nInstructor1;
+
+insert into nStudent12345 values(20,'ANjana',7-10-1994, 'cse','Kerala','Indian','cs12');
+insert into nStudent12345 values(21,'tina',1-10-1994, 'che','Kerala','Indian','cs11');
+insert into nStudent12345 values(22,'sreeradha',5-10-1994,'phy','Tamil','Indian','ch10');
+insert into nStudent12345 values(23,'Surya',2-10-1994,'mat','Kerala','Indian','ph13');
+insert into nStudent12345 values(25,'darshana',3-10-1994,'mal','Kerala','Indian','ma8');
+insert into nStudent12345 values(24,'anumol',4-10-1994,'cse','Andra ','Indian','cs9');
+insert into nStudent12345 values(26,'Pug',6-10-1994,'ece','Karnataka','Indian','ec34');
+insert into nStudent12345 values(12,'Mangu',8-10-1994,'eee','Karnataka','Indian','cs32');
+insert into nStudent12345 values(2,'KUnji',9-10-1994,'ece','Andra','Indian','ph23');
+insert into nStudent12345 values(13,'subhash',7-11-1994,'mec','Tamil','Indian','ch33');
+
+insert into Department12 values('cse','floor1',1200);
+insert into Department12 values('chy','floor1',1201);
+insert into Department12 values('csa','floor1',1202);
+insert into Department12 values('phy','floor1',1203);
+insert into Department12 values('ECE','floor2',1204);
+insert into Department12 values('intm','floor2',1205);
+insert into Department12 values('mec','floor0',1206);
+insert into Department12 values('mat','floor1',1207);
+insert into Department12 values('ite','floor1',1208);
+insert into Department12 values('mba','floor2',1209);
+
+insert into Instructor1 values('cs12','cse',1000);
+insert into Instructor1 values('cs11','cse',1001);
+insert into Instructor1 values('ch10','chy',1002);
+insert into Instructor1 values('ph13','phy',1003);
+insert into Instructor1 values('ma8','mat',1004);
+insert into Instructor1 values('cs9','cse',1005);
+insert into Instructor1 values('ec34','ECE',1006);
+insert into Instructor1 values('cs32','cse',1007);
+insert into Instructor1 values('ph23','phy',1008);
+insert into Instructor1 values('ch33','chy',1009);
+
