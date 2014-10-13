@@ -1,0 +1,74 @@
+/*Author- Anjana S*/
+ï»¿ï»¿
+Create table Student12345(sid int,dept_name Varchar(5) references Department12(dept_name),cgpa int,state Varchar(10),Nationality Varchar(15),advisor_id Varchar(10)references Instructor1(Iid));
+Create table Department12(dept_name Varchar(15) primary key,location Varchar(20), budget int);
+Create table Instructor1(Iid Varchar(10) primary key,dept_name  varchar(15) references Department12,salary int);
+Create table Course(ccode varchar(15) ,ctitle varchar(15),credits float, semester char(4),exam_slot Varchar(3),programme varchar(8),branch Varchar(15)references Department(dept_name),primary key(ccode,semester));
+Create table Pre-requisite(ccode varchar(10) references Course(ccode),pre-reqCCode varchar(15));
+Create table Batch(batchid char(4)references Teach(batchid),ccode  varchar(14) references Course(ccode),semester char(4) references Course(semester),year int,building int ,room_no int, foreign key(building, room_no)time_slot_id Varchar(10) references TimeSlot(time_slot_id));
+Create table Classroom(building int,room_no int,capacity int,primary key(building,room_no));
+Create table TimeSlot (time_slot_id Varchar(10) primary key, day varchar(18),start_time Varchar(6),end_time Varchar(6));
+Create table Teach(InstructorID varchar(15) references Instructor(Iid),batchid char(4) primary key,ccode varchar(15) references Course(ccode),semester char(5) references Course(semester),year int );
+Create table Register(sid int primary key,batchid char(4) references Batch(batchid),ccode varchar(10) references Course(ccode),semester char(5) references Course(semester),year int,grade char(4));
+
+Select * from Department12;
+Select * from Register;
+Select * from Teach;
+Select * from TimeSlot;
+Select * from Batch;
+Select * from Pre-requisite;
+Select * from Classroom;
+Select * from Student12345;
+Select * from Course;
+Select * from Instructor1;
+
+insert into Student12345 values(20,'cse',7,'Kerala','Indian','cs12');
+insert into Student12345 values(21,'cse',6,'Kerala','Indian','cs11');
+insert into Student12345 values(22,'chy',5,'Tamil','Indian','ch10');
+insert into Student12345 values(23,'phy',8,'Kerala','Indian','ph13');
+insert into Student12345 values(25,'mat',9,'Kerala','Indian','ma8');
+insert into Student12345 values(24,'cse',8,'Andra ','Indian','cs9');
+insert into Student12345 values(26,'ECE',4,'Karnataka','Indian','ec34');
+insert into Student12345 values(12,'cse',8,'Karnataka','Indian','cs32');
+insert into Student12345 values(2,'phy',6,'Andra','Indian','ph23');
+insert into Student12345 values(13,'chy',7,'Tamil','Indian','ch33');
+
+insert into Department12 values('cse','floor1',1200);
+insert into Department12 values('chy','floor1',1201);
+insert into Department12 values('csa','floor1',1202);
+insert into Department12 values('phy','floor1',1203);
+insert into Department12 values('ECE','floor2',1204);
+insert into Department12 values('intm','floor2',1205);
+insert into Department12 values('mec','floor0',1206);
+insert into Department12 values('mat','floor1',1207);
+insert into Department12 values('ite','floor1',1208);
+insert into Department12 values('mba','floor2',1209);
+
+insert into Instructor1 values('cs12','cse',1000);
+insert into Instructor1 values('cs11','cse',1001);
+insert into Instructor1 values('ch10','chy',1002);
+insert into Instructor1 values('ph13','phy',1003);
+insert into Instructor1 values('ma8','mat',1004);
+insert into Instructor1 values('cs9','cse',1005);
+insert into Instructor1 values('ec34','ECE',1006);
+insert into Instructor1 values('cs32','cse',1007);
+insert into Instructor1 values('ph23','phy',1008);
+insert into Instructor1 values('ch33','chy',1009);
+
+
+drop table Student12345;
+drop table Department;
+Select distinct advisor_id from Student12345 where dept_name='cse';
+Select dept_name, count(distinct Iid) from Instructor1 group by dept_name;
+Select dept_name, count(distinct Iid) from Instructor1 group by dept_name having count(distinct Iid)>2;
+
+Select * from Student12345; 
+Order by state;
+
+Select * from Student12345 where cgpa between 5 and 8;
+Select * from Student12345 where state='Kerala' and cgpa > 8;
+Select * from Student12345 where state='Kerala' or cgpa>8;
+Select * from Student12345 where state in('Kerala','Andra','Tamil');
+
+
+
